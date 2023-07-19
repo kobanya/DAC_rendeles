@@ -17,5 +17,10 @@ def process_orders(rendeles_file):
 
     return rendeles_dict
 
+keszlet_df = pd.read_csv('keszlet.csv', delimiter=';', encoding='utf-8')
+
 rendeles_dict = process_orders('rendeles.csv')
+
 print(rendeles_dict)
+print(keszlet_df)
+
