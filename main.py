@@ -28,7 +28,8 @@ def compare_orders_stock(rendeles_dict, keszlet_df):
     keszlet_df['kulonbseg'] = keszlet_df['mennyiseg'] - keszlet_df['rendelt_mennyiseg']
 
     return keszlet_df
-
+pd.set_option('display.max_columns', None)
+pd.set_option('display.width', None)
 rendeles_dict = process_orders('rendeles.csv')
 keszlet_df = pd.read_csv('keszlet.csv', delimiter=';', encoding='utf-8')
 
