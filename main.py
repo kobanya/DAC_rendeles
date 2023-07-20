@@ -17,10 +17,20 @@ def process_orders(rendeles_file):
 
     return rendeles_dict
 
-keszlet_df = pd.read_csv('keszlet.csv', delimiter=';', encoding='utf-8')
+def compare_orders_stock(rendeles_dict, keszlet_df):
+    keszlet_df['rendelt_mennyiseg'] = 0
+
+    for rendeles_szam, rendeles_data in rendeles_dict.items():
+        for termek, mennyiseg in zip(rendeles_data['termek'], rendeles_data['mennyiseg']):
+            if termek in keszlet_df['termek'].values:
+                keszlet_df.loc[keszlet_df['termek'] == termek, 'rendelt_mennyiseg'] += mennyiseg
+
+    keszlet_df['kulonbseg'] = keszlet_df['mennyiseg'] - keszlet_df['rendelt_mennyiseg']
+
+    return keszlet_df
 
 rendeles_dict = process_orders('rendeles.csv')
+keszlet_df = pd.read_csv('keszlet.csv', delimiter=';', encoding='utf-8')
 
-print(rendeles_dict)
-print(keszlet_df)
-
+merged_df = compare_orders_stock(rendeles_dict, keszlet_df)
+print(merged_df)
